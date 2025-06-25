@@ -1,6 +1,6 @@
 import { LoginData, LoginResponse, User } from '../types'
 import { setAuthCookies } from '../utils/cookies'
-import { api } from './api'
+import { api } from './axios'
 
 export async function loginRequest(payload: LoginData): Promise<LoginResponse> {
   const { status, data } = await api.post('/auth/login', payload)

@@ -1,36 +1,47 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, ReactNode } from 'react';
 
-type notificationType = 'success' | 'danger' | 'warning' | 'info'
+type NotificationType = 'success' | 'danger' | 'warning' | 'info';
 
 type AppContextType = {
-  title: string
-  message: string
-  messageType: notificationType
-  hasNotification: boolean
-  showMessage: (title: string, message: string, type: notificationType) => void
-  hideMessage: () => void
-}
+  title: string | null;
+  message: string | null;
+  messageType: NotificationType | null;
+  hasNotification: boolean;
+  showMessage: (title: string, message: string, type: NotificationType) => void;
+  hideMessage: () => void;
+};
 
-export const AppContext = createContext({} as AppContextType)
+type AppProviderProps = {
+  children: ReactNode;
+};
 
-export function AppProvider({ children }) {
-  const [title, setTitle] = useState<string | null>(null)
-  const [message, setMessage] = useState<string | null>(null)
-  const [messageType, setMessageType] = useState<notificationType | null>(null)
+export const AppContext = createContext<AppContextType>({
+  title: null,
+  message: null,
+  messageType: null,
+  hasNotification: false,
+  showMessage: () => {},
+  hideMessage: () => {},
+});
 
-  const hasNotification = !!message
+export function AppProvider({ children }: AppProviderProps) {
+  const [title, setTitle] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+  const [messageType, setMessageType] = useState<NotificationType | null>(null);
 
-  const showMessage = (title: string, message: string, type: notificationType): void => {
-    setTitle(title)
-    setMessage(message)
-    setMessageType(type)
-  }
+  const hasNotification = !!message;
+
+  const showMessage = (title: string, message: string, type: NotificationType): void => {
+    setTitle(title);
+    setMessage(message);
+    setMessageType(type);
+  };
 
   const hideMessage = (): void => {
-    setMessageType(null)
-    setMessage(null)
-    setMessageType(null)
-  }
+    setTitle(null);
+    setMessage(null);
+    setMessageType(null);
+  };
 
   return (
     <AppContext.Provider
@@ -38,9 +49,7 @@ export function AppProvider({ children }) {
     >
       {children}
     </AppContext.Provider>
-  )
+  );
 }
 
-export const useAppContext = () => {
-  return useContext(AppContext)
-}
+export const useAppContext = () => useContext(AppContext);

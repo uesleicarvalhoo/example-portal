@@ -1,46 +1,51 @@
-import { mdiClose } from '@mdi/js'
-import { ReactNode } from 'react'
-import type { ColorButtonKey } from '../../interfaces'
-import Button from '../Button'
-import Buttons from '../Buttons'
-import CardBox from '.'
-import CardBoxComponentTitle from './Component/Title'
-import OverlayLayer from '../OverlayLayer'
+import { mdiClose } from '@mdi/js';
+import { ReactNode } from 'react';
+import type { ColorButtonKey } from '../../interfaces';
+import Button from '../Button';
+import Buttons from '../Buttons';
+import CardBox from '.';
+import CardBoxComponentTitle from './Component/Title';
+import OverlayLayer from '../OverlayLayer';
 
 type Props = {
-  title: string
-  buttonColor: ColorButtonKey
-  buttonLabel: string
-  isActive: boolean
-  children: ReactNode
-  onConfirm: () => void
-  onCancel?: () => void
-}
+  title: string;
+  isActive: boolean;
+  children: ReactNode;
+  onCancel?: () => void;
+  buttonColor?: ColorButtonKey;
+  buttonLabel?: string;
+  onConfirm?: () => void;
+};
 
 const CardBoxModal = ({
   title,
-  buttonColor,
-  buttonLabel,
   isActive,
   children,
-  onConfirm,
   onCancel,
+  buttonLabel,
+  buttonColor,
+  onConfirm,
 }: Props) => {
-  if (!isActive) {
-    return null
-  }
+  if (!isActive) return null;
 
-  const footer = (
+  const hasFooter = buttonLabel && buttonColor && onConfirm;
+
+  const footer = hasFooter ? (
     <Buttons>
       <Button label={buttonLabel} color={buttonColor} onClick={onConfirm} />
-      {!!onCancel && <Button label="Cancel" color={buttonColor} outline onClick={onCancel} />}
+      {!!onCancel && (
+        <Button label="Cancelar" color={buttonColor} outline onClick={onCancel} />
+      )}
     </Buttons>
-  )
+  ) : undefined;
 
   return (
-    <OverlayLayer onClick={onCancel} className={onCancel ? 'cursor-pointer' : ''}>
+    <OverlayLayer
+      onClick={onCancel ? (e) => onCancel() : undefined}
+      className={onCancel ? 'cursor-pointer' : ''}
+    >
       <CardBox
-        className={`transition-transform shadow-lg max-h-modal w-11/12 md:w-3/5 lg:w-2/5 xl:w-4/12 z-50`}
+        className="transition-transform shadow-lg z-50 w-full md:w-[70%] lg:w-1/2 max-h-[90vh] overflow-hidden"
         isModal
         footer={footer}
       >
@@ -50,10 +55,12 @@ const CardBoxModal = ({
           )}
         </CardBoxComponentTitle>
 
-        <div className="space-y-3">{children}</div>
+        <div className="space-y-3 overflow-y-auto max-h-[calc(90vh-4rem)] px-4 pb-4">
+          {children}
+        </div>
       </CardBox>
     </OverlayLayer>
-  )
-}
+  );
+};
 
-export default CardBoxModal
+export default CardBoxModal;

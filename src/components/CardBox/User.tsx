@@ -33,11 +33,8 @@ const CardBoxUser = ({ className }: Props) => {
             </Formik>
           </div>
           <h1 className="text-2xl">
-            Howdy, <b>{user.name}</b>!
+            Olá, <b>{user?.name ?? 'Usuário'}</b>!
           </h1>
-          <p>
-            Last login <b>12 mins ago</b> from <b>127.0.0.1</b>
-          </p>
           <div className="flex justify-center md:block">
             <PillTag label="Verified" color="info" icon={mdiCheckDecagram} />
           </div>

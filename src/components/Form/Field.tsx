@@ -1,70 +1,94 @@
-import { Children, cloneElement, ReactElement, ReactNode } from 'react'
-import Icon from '../Icon'
+import { Children, cloneElement, ReactElement, ReactNode } from 'react';
+import { useField } from 'formik';
+import Icon from '../Icon';
 
 type Props = {
-  label?: string
-  labelFor?: string
-  help?: string
-  icons?: string[] | null[]
-  isBorderless?: boolean
-  isTransparent?: boolean
-  hasTextareaHeight?: boolean
-  children: ReactNode
-}
+  name: string; // necessário para conectar ao Formik
+  label?: string;
+  labelFor?: string;
+  help?: string;
+  icons?: string[] | null[];
+  isBorderless?: boolean;
+  isTransparent?: boolean;
+  hasTextareaHeight?: boolean;
+  children: ReactNode;
+};
 
-const FormField = ({ icons = [], ...props }: Props) => {
-  const childrenCount = Children.count(props.children)
+const FormField = ({
+  icons = [],
+  name,
+  label,
+  labelFor,
+  help,
+  isBorderless,
+  isTransparent,
+  hasTextareaHeight,
+  children,
+}: Props) => {
+  const [field, meta] = useField(name);
+  const showError = meta.touched && meta.error;
 
-  let elementWrapperClass = ''
+  const childrenCount = Children.count(children);
 
+  let elementWrapperClass = '';
   switch (childrenCount) {
     case 2:
-      elementWrapperClass = 'grid grid-cols-1 gap-3 md:grid-cols-2'
-      break
+      elementWrapperClass = 'grid grid-cols-1 gap-3 md:grid-cols-2';
+      break;
     case 3:
-      elementWrapperClass = 'grid grid-cols-1 gap-3 md:grid-cols-3'
+      elementWrapperClass = 'grid grid-cols-1 gap-3 md:grid-cols-3';
+      break;
   }
 
   const controlClassName = [
     'px-3 py-2 max-w-full border-gray-700 rounded w-full dark:placeholder-gray-400',
     'focus:ring focus:ring-blue-600 focus:border-blue-600 focus:outline-none',
-    props.hasTextareaHeight ? 'h-24' : 'h-12',
-    props.isBorderless ? 'border-0' : 'border',
-    props.isTransparent ? 'bg-transparent' : 'bg-white dark:bg-slate-800',
-  ].join(' ')
+    hasTextareaHeight ? 'h-24' : 'h-12',
+    isBorderless ? 'border-0' : 'border',
+    isTransparent ? 'bg-transparent' : 'bg-white dark:bg-slate-800',
+    showError ? 'border-red-600' : '',
+  ].join(' ');
 
   return (
     <div className="mb-6 last:mb-0">
-      {props.label && (
+      {label && (
         <label
-          htmlFor={props.labelFor}
-          className={`block font-bold mb-2 ${props.labelFor ? 'cursor-pointer' : ''}`}
+          htmlFor={labelFor || name}
+          className={`block font-bold mb-2 ${labelFor || name ? 'cursor-pointer' : ''}`}
         >
-          {props.label}
+          {label}
         </label>
       )}
-      <div className={`${elementWrapperClass}`}>
-        {Children.map(props.children, (child: ReactElement, index) => (
-          <div className="relative">
-            {cloneElement(child, {
-              className: `${controlClassName} ${icons[index] ? 'pl-10' : ''}`,
-            })}
-            {icons[index] && (
-              <Icon
-                path={icons[index]}
-                w="w-10"
-                h={props.hasTextareaHeight ? 'h-full' : 'h-12'}
-                className="absolute top-0 left-0 z-10 pointer-events-none text-gray-500 dark:text-slate-400"
-              />
-            )}
-          </div>
-        ))}
-      </div>
-      {props.help && (
-        <div className="text-xs text-gray-500 dark:text-slate-400 mt-1">{props.help}</div>
-      )}
-    </div>
-  )
-}
 
-export default FormField
+      <div className={elementWrapperClass}>
+        {Children.toArray(children)
+          .filter((child): child is ReactElement => typeof child === 'object' && 'type' in child)
+          .map((child, index) => (
+            <div className="relative" key={index}>
+              {cloneElement(child, {
+                className: `${controlClassName} ${icons[index] ? 'pl-10' : ''}`,
+                id: labelFor || name,
+                ...field,
+              })}
+              {icons[index] && (
+                <Icon
+                  path={icons[index]}
+                  w="w-10"
+                  h={hasTextareaHeight ? 'h-full' : 'h-12'}
+                  className="absolute top-0 left-0 z-10 pointer-events-none text-gray-500 dark:text-slate-400"
+                />
+              )}
+            </div>
+          ))}
+      </div>
+
+      {showError ? (
+        <div className="text-xs text-red-600 mt-1">{meta.error}</div>
+      ) : help ? (
+        <div className="text-xs text-gray-500 dark:text-slate-400 mt-1">{help}</div>
+      ) : null}
+    </div>
+  );
+};
+
+export default FormField;
