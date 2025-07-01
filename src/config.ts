@@ -13,3 +13,5 @@ export const getCoreConfig = () => {
 
 export const CEP_API_ENDPOINT = 'https://brasilapi.com.br/api/cep/v1/{cep}'
 export const BACKEND_API_BASE_URL = 'http://localhost:5000'
+
+export const PAGE_SIZE = 10;

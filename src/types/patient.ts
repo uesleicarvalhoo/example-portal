@@ -9,7 +9,7 @@ export type Patient = {
   birthDate: Date
   registredAt: Date
   observations: string
-  Address: Address
+  address: Address
   lastAppointmentDate?: Date
 }
 

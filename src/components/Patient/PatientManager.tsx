@@ -16,10 +16,11 @@ import PaginationControls from '../../components/Pagination/PaginationControl';
 
 import { Patient } from '../../types';
 import { CreatePatientDTO, UpdatePatientDTO } from '../../types/patient';
-import { patientService } from '../../services/patient';
+import { patientService, appointmentService } from '../../services';
 import SearchFieldWatcher from '../../components/Form/SearchFieldWatcher';
-
-const perPage = 10;
+import { CreateAppointmentParams } from '../../types/appointment';
+import { toast } from 'react-toastify';
+import { PAGE_SIZE } from '../../config';
 
 const PatientManager = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
@@ -39,13 +40,13 @@ const PatientManager = () => {
 
   const fetchPatients = useCallback(async () => {
     try {
-      const response = await patientService.getPaginated(currentPage, perPage, searchCriteria,
+      const response = await patientService.getPaginated(currentPage, PAGE_SIZE, searchCriteria,
       );
 
       setPatients(response.data);
       setNumPages(Math.ceil(response.totalPages));
     } catch (err) {
-      console.error('Erro ao buscar pacientes:', err);
+      console.log(err);
     }
   }, [currentPage, searchCriteria]);
 
@@ -63,9 +64,10 @@ const PatientManager = () => {
     try {
       await patientService.create(payload);
       await fetchPatients();
+      toast.success('Paciente cadastrado com sucesso');
       reset();
     } catch (err) {
-      console.error('Erro ao cadastrar paciente:', err);
+      console.log(err);
     }
   };
 
@@ -75,7 +77,7 @@ const PatientManager = () => {
       await fetchPatients();
       reset();
     } catch (err) {
-      console.error('Erro ao atualizar paciente:', err);
+      console.log(err);
     }
   };
 
@@ -85,11 +87,21 @@ const PatientManager = () => {
     try {
       await patientService.remove(patientToDelete.id);
       await fetchPatients();
+      toast.success('Paciente removido com sucesso');
       setPatientToDelete(null);
       setIsDeleteConfirmOpen(false);
       reset();
     } catch (err) {
-      console.error('Erro ao remover paciente:', err);
+      console.log(err);
+    }
+  };
+
+  const handleStartAppointment = async (params: CreateAppointmentParams) => {
+    try {
+      await appointmentService.create(params);
+      toast.success('Consulta iniciada com sucesso');
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -102,15 +114,16 @@ const PatientManager = () => {
     router.push(`/pacientes/${patient.id}/consultas`);
   };
 
+
   const handleViewRegisterForm = () => {
     setRegisterFormActive(true);
   };
+
 
   const confirmDelete = (patient: Patient) => {
     setPatientToDelete(patient);
     setIsDeleteConfirmOpen(true);
   };
-
 
   return (
     <SectionMain>
@@ -134,7 +147,7 @@ const PatientManager = () => {
       </CardBoxModal>
 
       <Formik initialValues={{ searchCriteria }} onSubmit={() => { }}>
-        {({ values, setFieldValue }) => (
+        {({ values }) => (
           <>
             <SearchFieldWatcher
               value={values.searchCriteria}
@@ -191,6 +204,7 @@ const PatientManager = () => {
           onView={handleView}
           onDelete={confirmDelete}
           onAppointment={handleAppointment}
+          onStartAppointment={handleStartAppointment}
         />
 
         <PaginationControls

@@ -89,3 +89,15 @@ export const calculateAge = (birthDate: Date): number => {
 
   return age
 }
+
+export const formatElapsedMicros = (micros: number) => {
+  const totalSeconds = Math.floor(micros / 1_000_000)
+  const min = Math.floor(totalSeconds / 60)
+  const sec = totalSeconds % 60
+  return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
+}
+
+
+export const formatDuration = (duration: string | undefined): string => {
+  return duration ? duration.split('.')[0] : '--:--:--'
+}

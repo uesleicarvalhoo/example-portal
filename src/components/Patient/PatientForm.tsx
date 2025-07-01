@@ -145,12 +145,12 @@ const PatientForm = ({
 
             <Divider />
 
-            <FormField label="Observações" name="notes">
+            <FormField label="Observações" name="observations">
               <Field
-                name="notes"
+                name="observations"
                 as="textarea"
-                rows={4}
-                readOnly={isReadOnly('notes')}
+                className="h-32"
+                readOnly={isReadOnly('observations')}
                 placeholder="Observações adicionais sobre o paciente"
               />
             </FormField>

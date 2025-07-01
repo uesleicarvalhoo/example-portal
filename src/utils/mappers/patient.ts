@@ -5,6 +5,7 @@ import {
   UpdatePatientDTO,
 } from '../../types/patient';
 import { Address } from '../../types/address';
+import { CreateAppointmentParams } from '../../types/appointment';
 
 const toLocalDateInputFormat = (date: Date): string => {
   const localDate = new Date(date);
@@ -64,7 +65,7 @@ export const fromPatientFormValues = (formValues: PatientFormValues): Patient =>
   cpf: formValues.cpf,
   observations: formValues.observations,
   registredAt: new Date(),
-  Address: {
+  address: {
     street: formValues.street,
     neighborhood: formValues.neighborhood,
     city: formValues.city,
@@ -82,10 +83,17 @@ export const toPatientFormValues = (patient: Patient): PatientFormValues => ({
   email: patient.email,
   cpf: patient.cpf,
   observations: patient.observations,
-  street: patient.Address.street,
-  neighborhood: patient.Address.neighborhood,
-  city: patient.Address.city,
-  state: patient.Address.state,
-  cep: patient.Address.cep,
-  complement: patient.Address.complement || '',
+  street: patient.address.street,
+  neighborhood: patient.address.neighborhood,
+  city: patient.address.city,
+  state: patient.address.state,
+  cep: patient.address.cep,
+  complement: patient.address.complement || '',
+});
+
+
+
+// 🔹 Mapper: Patient → Form
+export const toCreateAppointmentParams = (patient: Patient): CreateAppointmentParams => ({
+  patientID: patient.id
 });

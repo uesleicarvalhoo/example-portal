@@ -1,18 +1,22 @@
-import { mdiEye, mdiListBoxOutline, mdiTrashCan } from '@mdi/js';
-import Button from '../../components/Button';
-import Buttons from '../../components/Buttons';
-import UserAvatar from '../../components/UserAvatar';
+import { CreateAppointmentParams } from '../../types/appointment';
 import { Patient } from '../../types/patient';
-import { parseCpf, parseDateToString, parsePhone } from '../../utils/formaters';
+import PatientRow from './PatientRow';
 
 interface PatientTableProps {
   patients: Patient[];
   onView: (patient: Patient) => void;
   onDelete: (patient: Patient) => void;
   onAppointment: (patient: Patient) => void;
+  onStartAppointment: (params: CreateAppointmentParams) => void;
 }
 
-const PatientTable = ({ patients, onView, onDelete, onAppointment }: PatientTableProps) => {
+const PatientTable = ({
+  patients,
+  onView,
+  onDelete,
+  onAppointment,
+  onStartAppointment
+}: PatientTableProps) => {
   return (
     <table className="table-auto w-full">
       <thead>
@@ -23,47 +27,19 @@ const PatientTable = ({ patients, onView, onDelete, onAppointment }: PatientTabl
           <th>CPF</th>
           <th>Celular</th>
           <th>Última consulta</th>
-          <th />
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         {patients.map((patient) => (
-          <tr key={patient.id}>
-            <td className="border-b-0 lg:w-6 before:hidden">
-              <UserAvatar
-                username={patient.name}
-                className="w-24 h-24 mx-auto lg:w-6 lg:h-6"
-              />
-            </td>
-            <td>{patient.name}</td>
-            <td>{parseDateToString(patient.birthDate)}</td>
-            <td>{parseCpf(patient.cpf)}</td>
-            <td>{parsePhone(patient.phone)}</td>
-            <td>{patient.lastAppointmentDate ? parseDateToString(patient.lastAppointmentDate): '-'}</td>
-            <td className="before:hidden lg:w-1 whitespace-nowrap">
-              <Buttons type="justify-start lg:justify-end" noWrap>
-                <Button
-                  label="Consultas"
-                  color="success"
-                  icon={mdiListBoxOutline}
-                  onClick={() => onAppointment(patient)}
-                  small
-                />
-                <Button
-                  color="info"
-                  icon={mdiEye}
-                  onClick={() => onView(patient)}
-                  small
-                />
-                <Button
-                  color="danger"
-                  icon={mdiTrashCan}
-                  onClick={() => onDelete(patient)}
-                  small
-                />
-              </Buttons>
-            </td>
-          </tr>
+          <PatientRow
+            key={patient.id}
+            patient={patient}
+            onView={onView}
+            onDelete={onDelete}
+            onAppointment={onAppointment}
+            onStartAppointment={onStartAppointment}
+          />
         ))}
       </tbody>
     </table>

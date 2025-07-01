@@ -27,6 +27,11 @@ export const patientService = {
         };
     },
 
+    async getById(id: string): Promise<Patient> {
+        const response = await api.get(`${API_URL}/${id}`);
+        return response.data;
+    },
+
     async create(data: CreatePatientDTO): Promise<Patient> {
         const response = await api.post(API_URL, data);
         return response.data;

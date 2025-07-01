@@ -1,6 +1,7 @@
 import {
   mdiAccountCircle,
   mdiMonitor,
+  mdiStethoscope,
 } from '@mdi/js'
 import { MenuAsideItem } from './interfaces'
 
@@ -14,6 +15,11 @@ const menuAside: MenuAsideItem[] = [
     href: '/pacientes',
     label: 'Pacientes',
     icon: mdiAccountCircle,
+  },
+  {
+    href: '/consultas',
+    label: 'Consultas',
+    icon: mdiStethoscope,
   },
 ]
 

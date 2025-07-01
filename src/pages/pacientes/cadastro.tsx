@@ -55,28 +55,28 @@ const PatientForm = ({
       onSubmit={handleSubmit}
     >
       <Form>
-        <FormField label="Nome completo" help="Por favor, digite o nome completo">
+        <FormField name="fullName" label="Nome completo" help="Por favor, digite o nome completo">
           <Field name="fullName" type="text" />
         </FormField>
 
-        <FormField label="Data de nascimento" help="Por favor, selecione a data de nascimento">
+        <FormField name="birthDate" label="Data de nascimento" help="Por favor, selecione a data de nascimento">
           <Field name="birthDate" type="date" />
         </FormField>
 
-        <FormField label="Telefone" help="Por favor, digite o número de telefone">
+        <FormField name="phone" label="Telefone" help="Por favor, digite o número de telefone">
           <Field name="phone" type="text" />
         </FormField>
 
-        <FormField label="Email" help="Por favor, digite o endereço de email">
+        <FormField name="email" label="Email" help="Por favor, digite o endereço de email">
           <Field name="email" type="email" />
         </FormField>
 
-        <FormField label="CPF" help="Por favor, digite o CPF">
+        <FormField name="cpf" label="CPF" help="Por favor, digite o CPF">
           <Field name="cpf" type="text" />
         </FormField>
 
-        <FormField label="Observações" help="Anotações adicionais sobre o paciente">
-          <Field name="notes" as="textarea" rows={4} />
+        <FormField name="notes" label="Observações" help="Anotações adicionais sobre o paciente">
+          <Field name="notes" as="textarea" className="h-32" />
         </FormField>
 
         <Divider />

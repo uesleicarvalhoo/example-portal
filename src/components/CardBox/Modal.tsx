@@ -45,7 +45,7 @@ const CardBoxModal = ({
       className={onCancel ? 'cursor-pointer' : ''}
     >
       <CardBox
-        className="transition-transform shadow-lg z-50 w-full md:w-[70%] lg:w-1/2 max-h-[90vh] overflow-hidden"
+        className="transition-transform shadow-lg z-50 w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] max-h-[90vh] overflow-hidden"
         isModal
         footer={footer}
       >

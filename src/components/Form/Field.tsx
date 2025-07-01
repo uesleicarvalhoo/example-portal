@@ -3,7 +3,7 @@ import { useField } from 'formik';
 import Icon from '../Icon';
 
 type Props = {
-  name: string; // necessário para conectar ao Formik
+  name: string;
   label?: string;
   labelFor?: string;
   help?: string;
@@ -26,7 +26,7 @@ const FormField = ({
   children,
 }: Props) => {
   const [field, meta] = useField(name);
-  const showError = meta.touched && meta.error;
+  const showError = meta.touched && !!meta.error;
 
   const childrenCount = Children.count(children);
 
@@ -66,9 +66,13 @@ const FormField = ({
           .map((child, index) => (
             <div className="relative" key={index}>
               {cloneElement(child, {
-                className: `${controlClassName} ${icons[index] ? 'pl-10' : ''}`,
+                className: `${child.props.className || ''} ${controlClassName} ${icons[index] ? 'pl-10' : ''
+                  }`.trim(),
                 id: labelFor || name,
-                ...field,
+                value: field.value,
+                onChange: field.onChange,
+                onBlur: field.onBlur,
+                name: field.name,
               })}
               {icons[index] && (
                 <Icon
