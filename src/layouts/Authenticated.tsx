@@ -5,14 +5,14 @@ import { mdiForwardburger, mdiBackburger, mdiMenu } from '@mdi/js';
 import menuAside from '../menuAside';
 import menuNavBar from '../menuNavBar';
 
-import Icon from '../components/Icon';
-import NavBar from '../components/NavBar';
-import NavBarItemPlain from '../components/NavBar/Item/Plain';
-import AsideMenu from '../components/AsideMenu';
-import CardBoxModal from '../components/CardBox/Modal';
+import Icon from '@/shared/components/Icon';
+import NavBar from '@/shared/components/NavBar';
+import NavBarItemPlain from '@/shared/components/NavBar/Item/Plain';
+import AsideMenu from '@/shared/components/AsideMenu';
+import CardBoxModal from '@/shared/components/CardBox/Modal';
 
-import { useAuthContext } from '../context';
-import { useAppContext } from '../context/app';
+import { useAuthContext } from '@/context';
+import { useAppContext } from '@/context/app';
 import { toast } from 'react-toastify';
 
 type Props = {

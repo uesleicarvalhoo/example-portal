@@ -2,9 +2,10 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import Router from 'next/router';
 import { toast } from 'react-toastify';
 
-import { User, LoginData } from '../types';
-import { loginRequest, getUserProfile } from '../services/auth';
-import { destroyAuthCookies } from '../utils/cookies';
+import { LoginData } from '@/shared/types/auth';
+import { User } from '@/shared/types/user';
+import { loginRequest, getUserProfile } from '@/shared/services/auth';
+import { destroyAuthCookies } from '@/shared/utils/cookies';
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -20,8 +21,8 @@ type AuthProviderProps = {
 export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   user: null,
-  login: async () => {},
-  signOut: async () => {},
+  login: async () => { },
+  signOut: async () => { },
 });
 
 export function AuthProvider({ children }: AuthProviderProps) {
@@ -73,7 +74,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     Router.push('/login');
   };
 
-  // Enquanto verifica autenticação, evita renderizar o app (opcional)
   if (isLoading) return null;
 
   return (

@@ -1,15 +1,15 @@
 import { useEffect, type ReactElement } from 'react';
 import Head from 'next/head';
-import Button from '../components/Button';
-import CardBox from '../components/CardBox';
-import SectionFullScreen from '../components/Section/FullScreen';
+import Button from '@/shared/components/Button';
+import CardBox from '@/shared/components/CardBox';
+import SectionFullScreen from '@/shared/components/Section/FullScreen';
 import LayoutGuest from '../layouts/Guest';
 import { Field, Form, Formik } from 'formik';
-import FormField from '../components/Form/Field';
-import Divider from '../components/Divider';
-import Buttons from '../components/Buttons';
-import { getPageTitle } from '../config';
-import { LoginData } from '../types';
+import FormField from '@/shared/components/Form/Field';
+import Divider from '@/shared/components/Divider';
+import Buttons from '@/shared/components/Buttons';
+import { getPageTitle } from '@/config';
+import { LoginData } from '@/shared/types/auth';
 import { useAuthContext } from '../context';
 import { toast } from 'react-toastify';
 

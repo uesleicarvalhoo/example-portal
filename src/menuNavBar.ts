@@ -1,5 +1,5 @@
 import { mdiLogout, mdiThemeLightDark } from '@mdi/js'
-import { MenuNavBarItem } from './interfaces'
+import { MenuNavBarItem } from '@/shared/interfaces'
 
 const menuNavBar: MenuNavBarItem[] = [
   {

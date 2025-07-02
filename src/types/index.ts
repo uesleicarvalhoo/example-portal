@@ -1,8 +1,0 @@
-export type { Patient } from './patient'
-export type { User } from './user'
-export type { LoginData as LoginData, LoginResponse } from './auth'
-export type { State } from './address'
-export type { Address } from './address'
-export type { Message } from './message'
-export type { Appointment } from './appointment'
-export type { Exam } from './exam'

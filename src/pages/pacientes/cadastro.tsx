@@ -1,10 +1,10 @@
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
-import FormField from '../../components/Form/Field';
-import Divider from '../../components/Divider';
-import Buttons from '../../components/Buttons';
-import Button from '../../components/Button';
+import FormField from '@/shared/components/Form/Field';
+import Divider from '@/shared/components/Divider';
+import Buttons from '@/shared/components/Buttons';
+import Button from '@/shared/components/Button';
 
 export type PatientFormValues = {
   fullName: string;

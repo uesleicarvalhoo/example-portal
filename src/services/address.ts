@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Address } from '../types'
-import { CEP_API_ENDPOINT } from '../config'
+import { CEP_API_ENDPOINT } from '@/config'
 
 export async function getAddressByCep(cep: string): Promise<Address> {
   try {

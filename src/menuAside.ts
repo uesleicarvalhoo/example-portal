@@ -3,7 +3,7 @@ import {
   mdiMonitor,
   mdiStethoscope,
 } from '@mdi/js'
-import { MenuAsideItem } from './interfaces'
+import { MenuAsideItem } from '@/shared/interfaces'
 
 const menuAside: MenuAsideItem[] = [
   {

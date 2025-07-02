@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import CardBoxModal from '../components/CardBox/Modal'
+import CardBoxModal from '@/shared/components/CardBox/Modal'
 import { useAppContext } from '../context/app'
 
 type Props = {
@@ -12,8 +12,8 @@ export default function LayoutGuest({ children }: Props) {
   return (
     <>
       <CardBoxModal
-        title={title}
-        buttonColor={messageType}
+        title={title ? title : ''}
+        buttonColor={messageType ? messageType : "info"}
         buttonLabel="Confirmar"
         isActive={hasNotification}
         onConfirm={hideMessage}
