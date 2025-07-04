@@ -1,30 +1,40 @@
-import { useState } from 'react';
-import { Patient } from '../types/patient';
-import { patientService } from '../service';
+import { useCallback, useEffect, useState } from 'react';
+import { Patient } from '../types';
+import { patientService } from '../service/patientService';
+import { PAGE_SIZE } from '@/config';
 
 export const usePatientList = () => {
-  const [loading, setLoading] = useState(false);
   const [patients, setPatients] = useState<Patient[]>([]);
-  const [totalPages, setTotalPages] = useState(0);
+  const [searchCriteria, setSearchCriteria] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const fetch = async (page: number, size: number, search?: string) => {
+  const fetchPatients = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await patientService.search(page, size, search);
+      const response = await patientService.search(currentPage, PAGE_SIZE, searchCriteria);
       setPatients(response.data);
-      setTotalPages(response.totalPages);
+      setTotalPages(Math.max(1, response.totalPages));
     } catch (err) {
       console.error('Erro ao buscar pacientes:', err);
-      setPatients([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, searchCriteria]);
+
+  useEffect(() => {
+    fetchPatients();
+  }, [fetchPatients]);
 
   return {
-    loading,
     patients,
+    currentPage,
     totalPages,
-    fetch,
+    searchCriteria,
+    setSearchCriteria,
+    setCurrentPage,
+    fetchPatients,
+    loading,
   };
 };

@@ -15,7 +15,7 @@ interface Props {
     onRefresh?: () => void;
 }
 
-const AppointmentModal = ({ isActive, appointment, patient, onClose, onRefresh }: Props) => {
+const AppointmentModal = ({ isActive, appointment, onClose, onRefresh }: Props) => {
     const handleSubmitExam = async (params: ExamParams) => {
         try {
             if (!appointment) return;

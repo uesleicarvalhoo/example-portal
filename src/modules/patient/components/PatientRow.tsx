@@ -26,11 +26,6 @@ const PatientRow = ({ patient, onView, onDelete, onAppointment, onStartAppointme
             <td>{parseDateToString(patient.birthDate)}</td>
             <td>{parseCpf(patient.cpf)}</td>
             <td>{parsePhone(patient.phone)}</td>
-            <td>
-                {patient.lastAppointmentDate
-                    ? parseDateToString(patient.lastAppointmentDate)
-                    : '-'}
-            </td>
             <td className="before:hidden lg:w-1 whitespace-nowrap">
                 <PatientActions
                     patient={patient}

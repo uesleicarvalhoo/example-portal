@@ -19,7 +19,6 @@ export const useAppointmentListByPatient = (patientID: string | undefined) => {
                 pageSize: PAGE_SIZE,
                 patientID: patientID,
             });
-            console.log("appointments: ", response)
             setAppointments(response.data);
             setTotalPages(Math.max(1, Math.ceil(response.total / PAGE_SIZE)));
         } catch (err) {

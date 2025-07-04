@@ -4,7 +4,7 @@ import {
     PatientFormValues,
     Patient,
 } from '../types/patient';
-import { CreateAppointmentParams } from '@appointments/types/appointment';
+import { CreateAppointmentParams } from '@/modules/appointment/types';
 
 const toLocalDateInputFormat = (date: Date): string => {
     const localDate = new Date(date);
@@ -26,14 +26,14 @@ export const toCreatePatientDTO = (form: PatientFormValues): CreatePatientDTO =>
     phone: form.phone,
     email: form.email,
     cpf: form.cpf,
-    observations: form.notes?.trim() || undefined,
+    observations: form.observations?.trim() || undefined,
     address: {
-        street: form.address.street,
-        neighborhood: form.address.neighborhood,
-        city: form.address.city,
-        state: form.address.state,
-        cep: form.address.zipCode,
-        complement: form.address.complement || '',
+        street: form.street,
+        neighborhood: form.neighborhood,
+        city: form.city,
+        state: form.state,
+        cep: form.cep,
+        complement: form.complement || '',
     },
 });
 
@@ -44,14 +44,14 @@ export const toUpdatePatientDTO = (form: PatientFormValues): UpdatePatientDTO =>
     phone: form.phone,
     email: form.email,
     cpf: form.cpf,
-    observations: form.notes?.trim() || undefined,
+    observations: form.observations?.trim() || undefined,
     address: {
-        street: form.address.street,
-        neighborhood: form.address.neighborhood,
-        city: form.address.city,
-        state: form.address.state,
-        cep: form.address.zipCode,
-        complement: form.address.complement || '',
+        street: form.street,
+        neighborhood: form.neighborhood,
+        city: form.city,
+        state: form.state,
+        cep: form.cep,
+        complement: form.complement || '',
     },
 });
 
@@ -62,18 +62,17 @@ export const toPatientFormValues = (patient: Patient): PatientFormValues => ({
     phone: patient.phone,
     email: patient.email,
     cpf: patient.cpf,
-    notes: patient.observations,
-    address: {
-        street: patient.address.street,
-        neighborhood: patient.address.neighborhood,
-        city: patient.address.city,
-        state: patient.address.state,
-        zipCode: patient.address.cep,
-        complement: patient.address.complement || '',
-    },
+    observations: patient.observations,
+    street: patient.address.street,
+    neighborhood: patient.address.neighborhood,
+    city: patient.address.city,
+    state: patient.address.state,
+    cep: patient.address.cep,
+    complement: patient.address.complement || '',
+
 });
 
-// 🔹 Form → Patient (não costuma ser necessário, mas mantido se for útil)
+// 🔹 Form → Patient
 export const fromPatientFormValues = (form: PatientFormValues): Patient => ({
     id: '',
     name: form.fullName,
@@ -81,15 +80,15 @@ export const fromPatientFormValues = (form: PatientFormValues): Patient => ({
     phone: form.phone,
     email: form.email,
     cpf: form.cpf,
-    observations: form.notes,
+    observations: form.observations,
     registredAt: new Date(),
     address: {
-        street: form.address.street,
-        neighborhood: form.address.neighborhood,
-        city: form.address.city,
-        state: form.address.state,
-        cep: form.address.zipCode,
-        complement: form.address.complement,
+        street: form.street,
+        neighborhood: form.neighborhood,
+        city: form.city,
+        state: form.state,
+        cep: form.cep,
+        complement: form.complement,
     },
 });
 

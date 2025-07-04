@@ -1,1 +1,1 @@
-export type { CreatePatientDTO, Address, PaginatedPatientsResponse, Patient, PatientDTO, PatientFormValues, UpdatePatientDTO } from './patient'
+export type { CreatePatientDTO, PaginatedPatientsResponse, Patient, PatientDTO, PatientFormValues, UpdatePatientDTO } from './patient'

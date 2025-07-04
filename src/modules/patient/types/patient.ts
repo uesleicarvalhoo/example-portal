@@ -1,3 +1,5 @@
+import { Address } from "@/shared/types/address"
+
 export type Patient = {
     id: string
     name: string
@@ -9,15 +11,6 @@ export type Patient = {
     observations: string
     address: Address
     lastAppointmentDate?: Date
-}
-
-export interface Address {
-    street: string;
-    neighborhood: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    complement?: string;
 }
 
 export interface PatientDTO {
@@ -69,6 +62,7 @@ export type UpdatePatientDTO = {
     name: string;
     birthDate: Date;
     phone: string;
+    cpf: string;
     email: string;
     observations?: string;
     address: Address

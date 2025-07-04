@@ -34,7 +34,6 @@ const PatientTable = ({
             <th>Data de nascimento</th>
             <th>CPF</th>
             <th>Celular</th>
-            <th>Última consulta</th>
             <th>Ações</th>
           </tr>
         </thead>

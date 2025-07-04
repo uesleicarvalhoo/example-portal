@@ -21,7 +21,6 @@ const ExamFormView = ({
 }: Props) => {
     const handleSubmit = (values: ExamFormValues) => {
         const examId = appointment.examination ? appointment.examination.id : ''
-        console.log('exam values: ', values)
         const payload = fromExamFormValues(examId, appointment.id, values)
         onConfirm(payload)
     }

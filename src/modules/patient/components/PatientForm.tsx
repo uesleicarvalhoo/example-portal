@@ -5,15 +5,30 @@ import { useEffect } from 'react';
 import FormField from '@/shared/components/Form/Field';
 import Divider from '@/shared/components/Divider';
 import { PatientFormValues } from '../types/patient';
-import { getAddressByCep } from '@/services/address';
+import { getAddressByCep } from '@/shared/services/address';
 
 interface Props {
-  initialValues: PatientFormValues;
+  initialValues?: PatientFormValues;
   onSubmit: (values: PatientFormValues) => void;
   submitLabel?: string;
   onCancel?: () => void;
   readOnlyFields?: (keyof PatientFormValues)[];
 }
+
+const defaultInitialValues: PatientFormValues = {
+  fullName: '',
+  birthDate: '',
+  cpf: '',
+  phone: '',
+  email: '',
+  observations: '',
+  street: '',
+  neighborhood: '',
+  city: '',
+  state: '',
+  cep: '',
+  complement: '',
+};
 
 const validationSchema = Yup.object({
   fullName: Yup.string().required('Nome completo é obrigatório'),
@@ -29,7 +44,7 @@ const validationSchema = Yup.object({
 });
 
 const PatientForm = ({
-  initialValues,
+  initialValues = defaultInitialValues,
   onSubmit,
   onCancel,
   submitLabel = 'Salvar',
@@ -37,6 +52,8 @@ const PatientForm = ({
 }: Props) => {
   const isReadOnly = (field: keyof PatientFormValues) =>
     readOnlyFields.includes(field);
+
+  const isFormReadOnly = readOnlyFields.length === Object.keys(defaultInitialValues).length;
 
   return (
     <Formik
@@ -67,10 +84,14 @@ const PatientForm = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField label="CPF" name="cpf">
-                <Field name="cpf" type="numeric"
-                  minLength="14"
-                  maxLength="14"
-                  placeholder="000.000.000-00" readOnly={isReadOnly('cpf')} />
+                <Field
+                  name="cpf"
+                  type="text"
+                  placeholder="000.000.000-00"
+                  minLength="11"
+                  maxLength="11"
+                  readOnly={isReadOnly('cpf')}
+                />
               </FormField>
 
               <FormField label="Data de nascimento" name="birthDate">
@@ -84,9 +105,9 @@ const PatientForm = ({
                   name="phone"
                   type="text"
                   placeholder="71999999999"
-                  readOnly={isReadOnly('phone')}
                   minLength="11"
                   maxLength="11"
+                  readOnly={isReadOnly('phone')}
                 />
               </FormField>
 
@@ -131,12 +152,10 @@ const PatientForm = ({
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const onlyNumbers = e.target.value.replace(/\D/g, '').slice(0, 8);
                     e.target.value = onlyNumbers;
-                    // Formik precisa dessa chamada para atualizar corretamente o estado
                     e.target.dispatchEvent(new Event('input', { bubbles: true }));
                   }}
                 />
               </FormField>
-
             </div>
 
             <FormField label="Complemento" name="complement">
@@ -150,30 +169,32 @@ const PatientForm = ({
                 name="observations"
                 as="textarea"
                 className="h-32"
-                readOnly={isReadOnly('observations')}
                 placeholder="Observações adicionais sobre o paciente"
+                readOnly={isReadOnly('observations')}
               />
             </FormField>
 
             <Divider />
 
-            <div className="flex justify-end space-x-2">
-              {onCancel && (
+            {!isFormReadOnly && (
+              <div className="flex justify-end space-x-2">
+                {onCancel && (
+                  <button
+                    type="button"
+                    onClick={onCancel}
+                    className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded"
+                  >
+                    Cancelar
+                  </button>
+                )}
                 <button
-                  type="button"
-                  onClick={onCancel}
-                  className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded"
+                  type="submit"
+                  className="px-4 py-2 text-sm bg-blue-500 text-white hover:bg-blue-600 rounded"
                 >
-                  Cancelar
+                  {submitLabel}
                 </button>
-              )}
-              <button
-                type="submit"
-                className="px-4 py-2 text-sm bg-blue-500 text-white hover:bg-blue-600 rounded"
-              >
-                {submitLabel}
-              </button>
-            </div>
+              </div>
+            )}
           </Form>
         );
       }}
